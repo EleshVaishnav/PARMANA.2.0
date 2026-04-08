@@ -13,3 +13,6 @@ uvicorn
 # Utilities
 requests
 python-dotenv
+duckduckgo-search
+python-multipart
+requests
