@@ -1,13 +1,17 @@
-$installDir = "$HOME\Parmana2.0"
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "    Welcome to PARMANA 2.0 Setup (Windows)" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host ""
+
+$installDir = "$HOME\PARMANA"
 
 # 1. Download the code via Git
 if (Test-Path $installDir) {
-    Write-Host "Parmana directory already exists at $installDir. Pulling latest updates..." -ForegroundColor Yellow
+    Write-Host "PARMANA directory already exists at $installDir. Pulling latest updates..." -ForegroundColor Yellow
     Set-Location $installDir
     git pull
 } else {
-    Write-Host "Downloading Parmana 2.0 to $installDir..." -ForegroundColor Green
-    # PUT YOUR ACTUAL GITHUB USERNAME HERE:
+    Write-Host "Downloading PARMANA to $installDir..." -ForegroundColor Green
     git clone https://github.com/EleshVaishnav/PARMANA.2.0.git $installDir
     Set-Location $installDir
 }
@@ -44,7 +48,7 @@ if ($use_tg -eq 'y') {
     $tg_enabled = "false"
 }
 
-Write-Host "`nWhat will you use Parmana for? (Choose active skills)" -ForegroundColor Cyan
+Write-Host "`nWhat will you use PARMANA for? (Choose active skills)" -ForegroundColor Cyan
 Write-Host "1) Coding & System"
 Write-Host "2) Research"
 Write-Host "3) Both"
@@ -82,7 +86,7 @@ $configJson = @"
 Set-Content -Path "config.json" -Value $configJson
 
 Write-Host "`n✅ Setup Complete!" -ForegroundColor Green
-Write-Host "Parmana has been installed to: $installDir"
+Write-Host "PARMANA 2.0 has been installed to: $installDir"
 Write-Host "To start the agent, run:" -ForegroundColor Yellow
-Write-Host "cd $HOME\Parmana"
+Write-Host "cd $HOME\PARMANA"
 Write-Host "python main.py"
