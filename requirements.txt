@@ -1,1 +1,15 @@
+# Universal API Wrapper
+litellm
 
+# Memory
+mem0ai
+chromadb
+
+# Channels
+python-telegram-bot
+fastapi
+uvicorn
+
+# Utilities
+requests
+python-dotenv
