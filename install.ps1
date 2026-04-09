@@ -5,7 +5,6 @@ Write-Host ""
 
 $installDir = "$HOME\PARMANA"
 
-# 1. Download the code via Git
 if (Test-Path $installDir) {
     Write-Host "PARMANA directory already exists at $installDir. Pulling latest updates..." -ForegroundColor Yellow
     Set-Location $installDir
@@ -16,11 +15,9 @@ if (Test-Path $installDir) {
     Set-Location $installDir
 }
 
-# 2. Install requirements
 Write-Host "`nInstalling Python dependencies..." -ForegroundColor Green
 pip install -r requirements.txt
 
-# 3. Ask Setup Questions
 Write-Host "`nWhich LLM provider do you want to use?" -ForegroundColor Cyan
 Write-Host "1) OpenAI (GPT-4o)"
 Write-Host "2) Anthropic (Claude 3.5)"
@@ -61,29 +58,31 @@ switch ($skill_choice) {
     Default { $skills = '' }
 }
 
-# 4. Generate config.json
-Write-Host "`nGenerating config.json..." -ForegroundColor Green
+Write-Host "`nGenerating config.yaml..." -ForegroundColor Green
 
-$configJson = @"
-{
-  "llm_provider": "$provider",
-  "model_name": "$model",
-  "api_key": "$api_key",
-  "channels": {
-    "telegram": {
-      "enabled": $tg_enabled,
-      "token": "$tg_token"
-    },
-    "whatsapp": {
-      "enabled": false,
-      "token": ""
-    }
-  },
-  "active_skills": [$skills]
-}
+$configYaml = @"
+llm_provider: $provider
+model_name: $model
+api_key: "$api_key"
+
+active_skills: [$skills]
+
+channels:
+  telegram:
+    enabled: $tg_enabled
+    token: "$tg_token"
+  whatsapp:
+    enabled: false
+    token: ""
+
+memory:
+  enabled: true
+  top_k: 5
+  path: parmana_memory_db
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
 "@
 
-Set-Content -Path "config.json" -Value $configJson
+Set-Content -Path "config.yaml" -Value $configYaml
 
 Write-Host "`n✅ Setup Complete!" -ForegroundColor Green
 Write-Host "PARMANA 2.0 has been installed to: $installDir"

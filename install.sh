@@ -1,7 +1,11 @@
-
 #!/bin/bash
+set -e
 
-# ── Banner ──────────────────────────────
+PARMANA_VERSION="2.0"
+BOLD='\033[1m'
+BLUE='\033[34m'
+RESET='\033[0m'
+
 echo ""
 echo "${BOLD}${BLUE}"
 echo "  ██████╗  █████╗ ██████╗ ███╗   ███╗ █████╗ ███╗   ██╗ █████╗ "
@@ -15,7 +19,6 @@ echo "  ${BOLD}Har Bar Naya${RESET} — Free, Local, Limitless AI"
 echo "  Version: ${PARMANA_VERSION}"
 echo ""
 
-# 1. Ask for LLM Provider
 echo "Which LLM provider do you want to use?"
 echo "1) OpenAI (GPT-4o)"
 echo "2) Anthropic (Claude 3.5)"
@@ -33,11 +36,10 @@ esac
 
 read -p "Enter your API Key for $provider: " api_key
 
-# 2. Ask for Channels
 echo ""
 echo "Which channels do you want to enable?"
 read -p "Enable Telegram? (y/n): " use_telegram
-if [ "$use_telegram" == "y" ]; then
+if [ "$use_telegram" = "y" ]; then
     read -p "Enter Telegram Bot Token: " telegram_token
     tg_enabled="true"
 else
@@ -45,7 +47,6 @@ else
     tg_enabled="false"
 fi
 
-# 3. Ask for Skills
 echo ""
 echo "What will you use Parmana for? (Choose active skills)"
 echo "1) Coding & System (Code execution, file reading)"
@@ -54,33 +55,35 @@ echo "3) Both"
 read -p "Select a number (1-3): " skill_choice
 
 case $skill_choice in
-  1) skills="[\"coding\", \"file_system\"]" ;;
-  2) skills="[\"web_search\", \"calculator\"]" ;;
-  3) skills="[\"coding\", \"file_system\", \"web_search\", \"calculator\"]" ;;
-  *) skills="[]" ;;
+  1) skills='["coding", "file_system"]' ;;
+  2) skills='["web_search", "calculator"]' ;;
+  3) skills='["coding", "file_system", "web_search", "calculator"]' ;;
+  *) skills='[]' ;;
 esac
 
-# 4. Generate config.json
 echo ""
-echo "Generating config.json..."
+echo "Generating config.yaml..."
 
-cat <<EOF > config.json
-{
-  "llm_provider": "$provider",
-  "model_name": "$default_model",
-  "api_key": "$api_key",
-  "channels": {
-    "telegram": {
-      "enabled": $tg_enabled,
-      "token": "$telegram_token"
-    },
-    "whatsapp": {
-      "enabled": false,
-      "token": ""
-    }
-  },
-  "active_skills": $skills
-}
+cat <<EOF > config.yaml
+llm_provider: $provider
+model_name: $default_model
+api_key: "$api_key"
+
+active_skills: $skills
+
+channels:
+  telegram:
+    enabled: $tg_enabled
+    token: "$telegram_token"
+  whatsapp:
+    enabled: false
+    token: ""
+
+memory:
+  enabled: true
+  top_k: 5
+  path: parmana_memory_db
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
 EOF
 
 echo "Setup Complete! To start Parmana, run: python main.py"
