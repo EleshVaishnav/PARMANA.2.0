@@ -22,6 +22,20 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/EleshVaishnav/PARMANA.2.
 bash -c "$(wget -qO- https://raw.githubusercontent.com/EleshVaishnav/PARMANA.2.0/main/install.sh)"
 ```
 
+## 📍 Where is `install.ps1`?
+
+`install.ps1` is in the **repository root**:
+
+- Local path: `./install.ps1`
+- GitHub URL: `https://raw.githubusercontent.com/EleshVaishnav/PARMANA.2.0/main/install.ps1`
+
+Run it locally from PowerShell:
+
+```powershell
+cd PARMANA.2.0
+.\install.ps1
+```
+
 ## ▶️ How to run it
 
 ### Option A: after one-line install
