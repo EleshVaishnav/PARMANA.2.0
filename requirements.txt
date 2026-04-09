@@ -9,10 +9,10 @@ chromadb
 python-telegram-bot
 fastapi
 uvicorn
+python-multipart
 
 # Utilities
 requests
 python-dotenv
 duckduckgo-search
-python-multipart
-requests
+PyYAML
